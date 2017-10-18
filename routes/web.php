@@ -19,8 +19,39 @@
 
 // Get Routes
 Route::get('/',[
-	'as'	=>		'PostController@index'
+	'uses'		=>		'PagesController@index'
 ]);
+Route::get('/category/{slug}', [
+	'uses'		=>		'PagesController@getCategoryPost'
+]);
+
+//Post Routes
+Route::post('/create', [
+	'uses'			=>		'PostController@savePost'
+]);
+Route::post('add-category', [
+	'uses'			=>		'PostController@addCategory'
+]);
+
+//Group Route
+Route::group(['middleware' => ['auth']], function()
+{
+	Route::get('create', [
+		'uses'		=>		'PagesController@createPost'
+	]);
+
+	Route::get('add-category', [
+		'uses'		=>		'PagesController@addCategory'
+	]);
+
+});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+
+/*
 Route::get('/home',[
 	'uses' => 'PostController@index'
 ]);
@@ -62,5 +93,7 @@ Route::group(['middleware' => ['auth']], function()
  	Route::post('new-post','PostController@store');
  	Route::post('update','PostController@update');
  	Route::post('comment/delete/{id}','CommentController@distroy');
-});
+});*/
+
+
 
