@@ -8,6 +8,7 @@ use App\User;
 use App\Image;
 use App\Category;
 use Auth;
+use DB;
 use App\Http\Services\PostManagement;
 
 class PagesController extends Controller
@@ -39,7 +40,7 @@ class PagesController extends Controller
     	{
     		return view('pages.create-post', compact('category'));	
     	}
-    	return 404;
+    	return view('errors.404');
     }
 
     public function addCategory()
@@ -50,18 +51,28 @@ class PagesController extends Controller
     	{
     		return view('pages.category');	
     	}
-    	return 404;
+    	return view('errors.404');
     }
 
     public function getCategoryPost($slug)
     {
         
-        $getId = $this->postmanagement->getCategoryId($slug);
-       
-        $posts = Post::whereColumn([
-            ['publish', '=', 1],
-            ['category_id', $getId]
-            ])->with('image')->orderBy('created_at','desc')->paginate(15);
-        return $posts;
+        $catId = $this->postmanagement->getCategoryId($slug);
+
+        $posts = Post::where('publish',1)->where('category_id', $catId)->with('image')->orderBy('created_at','desc')->paginate(15);
+
+        return view('pages.category-post', compact('posts'));
+    }
+
+    public function singlePost($slug)
+    {
+        
+        $post = Post::where('slug',$slug)->with('image')->get();
+        if($post->isEmpty()){
+            return view('errors.404');
+        }
+        return view('pages.single', compact('post'));
+
+        
     }
 }
