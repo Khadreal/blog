@@ -93,7 +93,7 @@ class PostController extends Controller
     		$data = [
     			'title'			=>	$request['name'],
     			'description'	=>	$request['description'],
-    			'slug'			=>	str_slug($request['name'])
+    			'slug'			=>	str_slug($request['name'], "-")
     		];
     		$category::create($data);
     		return back()->with('message', 'success');

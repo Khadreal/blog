@@ -42,7 +42,7 @@ class PostManagement
     public function getCategoryId($data)
     {
         try {
-            $response = DB::table('category')->where('slug', $data)->value('id');;
+            $response = DB::table('category')->where('slug', $data)->value('id');
             return $response;
         } catch (\Exception $e) {
             \Log::info($e->getMessage());

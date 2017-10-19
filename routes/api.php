@@ -25,3 +25,11 @@ Route::get('/posts', [
 Route::get('/draft-posts', [
 	'uses'		=>		'Api\PostController@InactivePost'
 ]);
+
+Route::post('/add-post', [
+	'uses'		=>		'Api\PostController@createPost'
+]);
+
+Route::post('/add-category', [
+	'uses'		=>		'Api\PostController@addCategory'
+]);
