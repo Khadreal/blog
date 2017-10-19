@@ -72,19 +72,9 @@ class UserController
 
         if ($validator->fails())
         {
-        	foreach ($validator->messages()->getMessages() as $field_name => $messages)
-    		{
-		        var_dump($messages); // messages are retrieved (publicly)
-		    }
-
-            return response(
-                $data = [
-                    "Message"   =>      "All fields are required"
-                ], 
-            500)->header('Content-Type', 'application/json');
+        	return response()->json(['errors'=>$validator->errors()]);
         }
 
-        return 400;
     	$passkey = Hash::make($request['password']);
 
     	$userData = [
@@ -94,8 +84,8 @@ class UserController
     		'password'	=>		$passkey
     	];
 
-    	 User::create($userData);
-
+    	 $red = User::create($userData); 
+    	 return $red;
     	 return response(
     	 	$data = [
     	 		"message"	=>	"New User Created"

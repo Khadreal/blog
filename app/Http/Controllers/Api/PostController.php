@@ -135,11 +135,7 @@ class PostController extends Controller
 
         if ($validator->fails())
         {
-            return response(
-                $data = [
-                    "Message"   =>      "The Category title is required"
-                ], 
-            500)->header('Content-Type', 'application/json');
+            return response()->json(['errors'=>$validator->errors()]);
         }
 
         $data = [
