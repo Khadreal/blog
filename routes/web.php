@@ -24,7 +24,7 @@ Route::get('/',[
 Route::get('/category/{slug}', [
 	'uses'		=>		'PagesController@getCategoryPost'
 ]);
-Route::get('/{slug}', [
+Route::get('/post/{slug}', [
 	'uses'		=>		'PagesController@singlePost'
 ]);
 //Post Routes

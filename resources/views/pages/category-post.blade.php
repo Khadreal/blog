@@ -20,7 +20,7 @@
 								 <li class="list-group-item">
 									@if( $post->image )
 										<figure class="col-sm-3">
-											<img src="{{ url('/') ."/".$post['image']['image'] }}" alt="{{ $post->title }}" />
+											<img src="{{ url('/post/') ."/".$post['image']['image'] }}" alt="{{ $post->title }}" />
 										</figure>
 									@endif
 									<article>
@@ -32,7 +32,7 @@
 									    </span>
 
 									    <p>
-									    	{!! str_limit($post->body, $limit = 15, $end = ' <a href='.url("/".$post->slug).'>Read More</a>') !!}
+									    	{!! str_limit($post->body, $limit = 15, $end = ' <a href='.url("/post/".$post->slug).'>Read More</a>') !!}
 									    </p>
 									</article>
 							    	

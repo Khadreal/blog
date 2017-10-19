@@ -25,7 +25,7 @@
 									@endif
 									<article>
 										<h3>
-											<a href="{{ url('/'.$post->slug) }}">{{ $post->title }}</a>
+											<a href="{{ url('/post/'.$post->slug) }}">{{ $post->title }}</a>
 							    		</h3>
 									    <span>
 									    	{{ $post->created_at->format('M d,Y ') }} By <a href="{{ url('/user/'.$post->author_id)}}">{{ $post->author->name }}</a>
@@ -33,7 +33,7 @@
 
 									    <p>
 									    	
-									    	{!! str_limit($post->body, $limit = 15, $end = ' <a href='.url("/".$post->slug).'>Read More</a>') !!}
+									    	{!! str_limit($post->body, $limit = 15, $end = ' <a href='.url("/post/".$post->slug).'>Read More</a>') !!}
 									    </p>
 									</article>
 							    	
