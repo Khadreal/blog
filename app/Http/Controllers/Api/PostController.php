@@ -32,6 +32,7 @@ class PostController extends Controller
 
     public function allPost()
     {
+        
         $posts = $this->postmanagement->getPost();
 
         $nodata = [
@@ -83,40 +84,49 @@ class PostController extends Controller
 
         $author_id = $this->usermanagement->getUserId($request['email']);
 
-        $featuredId = null;
-
-        if ($request->hasFile('image'))
+        if ( $author_id )
         {
-            $image = $request->file('image');
-            $name = time().'.'.$image->getClientOriginalExtension();
-            $destinationPath = public_path('/images');
-            $image->move($destinationPath, $name);
-            $name = 'images' . "/" . $name;
-            $data = [
-                'image'  =>     $name,
+            $featuredId = null;
+
+            if ($request->hasFile('image'))
+            {
+                $image = $request->file('image');
+                $name = time().'.'.$image->getClientOriginalExtension();
+                $destinationPath = public_path('/images');
+                $image->move($destinationPath, $name);
+                $name = 'images' . "/" . $name;
+                $data = [
+                    'image'  =>     $name,
+                ];
+
+                $featured = Image::create($data);  
+                $featuredId = $featured->id;
+            }
+
+            $postData = [
+                'author_id'     =>      $author_id,
+                'title'         =>      $request['title'],
+                'body'          =>      $request['content'],
+                'category_id'   =>      $request['category'],
+                'slug'          =>      str_slug($request['title'], "-"),
+                'image_id'      =>      $featuredId,
+                'publish'       =>      $request['status']
             ];
 
-            $featured = Image::create($data);  
-            $featuredId = $featured->id;
+            Post::create($postData);
+
+            return response(
+                $data = [
+                    "Message"       =>      "Post successfully created"
+                ],
+                200)->header('Content-Type', 'application/json');   
         }
 
-        $postData = [
-            'author_id'     =>      $author_id,
-            'title'         =>      $request['title'],
-            'body'          =>      $request['content'],
-            'category_id'   =>      $request['category'],
-            'slug'          =>      str_slug($request['title'], "-"),
-            'image_id'      =>      $featuredId,
-            'publish'       =>      $request['status']
-        ];
-
-        Post::create($postData);
-
         return response(
-            $data = [
-                "Message"       =>      "Post successfully created"
-            ],
-            200)->header('Content-Type', 'application/json');   
+                $data = [
+                    "Message"       =>      "You need to logged in to create a post"
+                ],
+                400)->header('Content-Type', 'application/json');  
     }
 
     public function addCategory(Request $request)
@@ -147,4 +157,5 @@ class PostController extends Controller
             200)->header('Content-Type', 'application/json');   
 
     }
+
 }

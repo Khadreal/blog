@@ -7,15 +7,26 @@ use App\Post;
 
 class PostManagement 
 {
-	public function getPost()
+	public function getAuthorPost($id)
 	{
 		try {
-            $response = Post::where('publish',1)->with('image')->get();
+            $response = DB::table('posts')->where('author_id', $id)->get();
             return $response;
         } catch (\Exception $e) {
             \Log::info($e->getMessage());
         }
 	}	
+
+
+    public function getPost()
+    {
+        try {
+            $response = Post::where('publish',1)->with('image')->get();
+            return $response;
+        } catch (\Exception $e) {
+            \Log::info($e->getMessage());
+        }
+    }   
 
 
 	public function InactivePost()

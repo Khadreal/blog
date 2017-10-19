@@ -33,3 +33,11 @@ Route::post('/add-post', [
 Route::post('/add-category', [
 	'uses'		=>		'Api\PostController@addCategory'
 ]);
+
+Route::post('/login', [
+	'uses'		=>		'Api\UserController@login'
+]);
+
+Route::post('/register', [
+	'uses'		=>		'Api\UserController@register'
+]);

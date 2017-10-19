@@ -26,4 +26,17 @@ class FormValidation
         return $validator;
     }
 
+
+    public function userValidation($data)
+    {
+        $validator = Validator::make($data, [
+            'name'          =>      'required|string|max:155',
+            'email'         =>      'required|string|email|max:255|unique:users',
+            'role'          =>      'required',
+            'password'      =>      'required'
+        ]);
+
+        return $validator;
+    }
+
 }
